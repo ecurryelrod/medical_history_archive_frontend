@@ -1,0 +1,30 @@
+.record-box {
+    float: left;
+    background-color: aquamarine;
+    padding: 10px;
+    text-align: center;
+}
+#recordContainer {
+    width: auto;
+    margin: auto;
+    /* margin-top: 50px; */
+    display: flex;
+  }
+
+  /* #form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  } */
+  
+  .recordBox{
+    float: auto;
+    width: 350px;
+    height: auto;
+    background-color: lightblue;
+    color: #000080;
+    margin: 15px;
+    padding: 10px;
+    text-align: center;
+  }
