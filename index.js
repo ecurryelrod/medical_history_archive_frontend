@@ -1,8 +1,10 @@
-const endPoint = 'http://127.0.0.1:3000/api/records'
+const recordsLink = 'http://127.0.0.1:3000/api/records'
+const categoriesLink = 'http://127.0.0.1:3000/api/categories'
+const recordForm = () => document.getElementById('record-form')
 
 document.addEventListener('DOMContentLoaded', () => {
-    // getRecords()
-    button.addEventListener('click', handleClick)
+    buttonShow.addEventListener('click', handleClick)
+    buttonNew.addEventListener('click', displayForm)
 })
 
 const handleClick = () => {
@@ -10,7 +12,7 @@ const handleClick = () => {
 }
 
 const getRecords = () => {
-    fetch(endPoint)
+    fetch(recordsLink)
     .then(resp => resp.json())
     .then(records => {
         displayRecords(records)
@@ -62,4 +64,39 @@ const displayRecords = (records) => {
     })
 }
 
+const displayForm = () => {
+    if (!recordForm()) {
+        fetch(categoriesLink)
+        .then(resp => resp.json())
+        .then(categories => categories.data.map((category) => `<option value="${category.id}">${category.attributes.name}</option>`))
+        .then(collection => categoryId.innerHTML = collection.join(" "))
 
+        formContainer.insertAdjacentHTML('afterbegin', `
+            <br><br>
+            <form id="record-form">
+                <strong>Select a Category:</strong>
+                <select id="categoryId"></select>
+                <br><br>
+                <input type="text" name="doc_name" placeholder="Doctor's Name">
+                <br><br>
+                <input type="text" name="practice_name" placeholder="Business Name">
+                <br><br>
+                <input type="text" name="url" placeholder="website">
+                <br><br>
+                <input type="date" name="date">
+                <br><br>
+                <input type="text" name="phone" placeholder="Phone Number"/>
+                <br><br>
+                <textarea name="medications" id="" cols="30" rows="10" placeholder="List medications"></textarea>
+                <br><br>
+                <textarea name="med_notes" id="" cols="30" rows="10" placeholder="Medication Notes"></textarea>
+                <br><br>
+                <textarea name="comments" id="" cols="30" rows="10" placeholder="General comments"></textarea>
+                <br><br>
+                <input type="submit" value="Submit"/>
+            </form>
+        `)
+    } else {
+        recordForm().remove()
+    }
+}
