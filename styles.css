@@ -1,22 +1,13 @@
-.record-box {
-    float: left;
-    background-color: aquamarine;
-    padding: 10px;
-    text-align: center;
+body {
+    background-color: blanchedalmond;
 }
+
 #recordContainer {
     width: auto;
     margin: auto;
     /* margin-top: 50px; */
     display: flex;
   }
-
-  /* #form{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  } */
   
   .recordBox{
     float: auto;
@@ -27,4 +18,11 @@
     margin: 15px;
     padding: 10px;
     text-align: center;
+  }
+
+  #form {
+      background-color: lightgreen;
+      float: left;
+      margin: 15px;
+      padding: 20px;
   }

@@ -1,15 +1,25 @@
 const endPoint = 'http://127.0.0.1:3000/api/records'
 
 document.addEventListener('DOMContentLoaded', () => {
-    getRecords()
+    // getRecords()
+    button.addEventListener('click', handleClick)
 })
+
+const handleClick = () => {
+    getRecords();
+}
 
 const getRecords = () => {
     fetch(endPoint)
     .then(resp => resp.json())
     .then(records => {
-        displayRecord(records)
+        displayRecords(records)
     })
+    .catch(handleError)
+}
+
+const handleError = (error) => {
+    console.log(error)
 }
 
 const phoneFormat = (input) => {
@@ -26,59 +36,30 @@ const phoneFormat = (input) => {
     }
 }
 
-const displayRecord = (records) => {
+const displayRecords = (records) => {
     records.data.forEach(record => {
-        console.log(record)
-        const recordBox = document.createElement('div')
-        recordBox.className = 'recordBox'
 
-        const category = document.createElement('h2')
-        category.innerText = record.attributes.category.name
-        category.className = 'category'
-        recordBox.append(category)
-
-        const docName = document.createElement('h4')
-        docName.innerText = record.attributes.doc_name
-        docName.className = 'doc-name'
-        recordBox.append(docName)
-
-        const practiceName = document.createElement('h4')
-        practiceName.innerText = record.attributes.practice_name
-        practiceName.className = 'practice-name'
-        recordBox.append(practiceName)
-
-        const url= document.createElement('a')
-        url.href = record.attributes.url
-        url.innerText = record.attributes.url
-        url.className = 'url'
-        recordBox.append(url)
-
-        const phone = document.createElement('p')
-        phone.innerText = phoneFormat(record.attributes.phone)
-        phone.className = 'phone'
-        recordBox.append(phone)
-
-        const medsLabel = document.createElement('h4')
-        medsLabel.innerText = 'Medications: '
-        const meds = document.createElement('p')
-        meds.innerText = record.attributes.medications
-        meds.className = 'meds'
-        recordBox.append(medsLabel, meds)
-
-        const medNotesLabel = document.createElement('h4')
-        medNotesLabel.innerText = 'Medication Notes: '
-        const medNotes = document.createElement('p')
-        medNotes.innerText = record.attributes.med_notes
-        medNotes.className = 'med-notes'
-        recordBox.append(medNotesLabel, medNotes)
-
-        const commentLabel = document.createElement('h4')
-        commentLabel.innerText = 'General Comments: '
-        const comments = document.createElement('p')
-        comments.innerText = record.attributes.comments
-        comments.className = 'comments'
-        recordBox.append(commentLabel, comments)
-
-        recordContainer.append(recordBox)
+        if (recordContainer.children.length < 1) {
+            const recordBox = document.createElement('div')
+            recordBox.className = 'recordBox'
+            recordBox.innerHTML = `    
+                <h2 class="category">${record.attributes.category.name}</h2>
+                <h4 class="docName">${record.attributes.doc_name}</h4>
+                <h4 class="practiceName">${record.attributes.practice_name}</h4>
+                <a href="${record.attributes.url}" target="_blank">${record.attributes.url}</a>
+                <p class="phone">${phoneFormat(record.attributes.phone)}</p>
+                <h4>Medications:</h4>
+                <p class="meds">${record.attributes.medications}</p>
+                <h4>Medication Notes:</h4>
+                <p class="medNotes">${record.attributes.med_notes}</p>
+                <h4>General Comments:</h4>
+                <p class="comments">${record.attributes.comments}</p>
+            `
+            recordContainer.append(recordBox)
+        } else {
+            recordContainer.innerHTML = ""
+        }
     })
 }
+
+
