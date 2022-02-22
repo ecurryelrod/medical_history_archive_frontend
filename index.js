@@ -1,6 +1,6 @@
 const recordsLink = 'http://127.0.0.1:3000/records'
 const categoriesLink = 'http://127.0.0.1:3000/categories'
-const recordForm = () => document.getElementById('record-form')
+const recordForm = () => document.getElementById('recordForm')
 
 document.addEventListener('DOMContentLoaded', () => {
     buttonShow.addEventListener('click', handleClick)
@@ -74,7 +74,7 @@ const displayForm = () => {
 
         formContainer.insertAdjacentHTML('afterbegin', `
             <br><br>
-            <form id="record-form">
+            <form id="recordForm">
                 <strong>Select a Category:</strong>
                 <select id="categoryId"></select>
                 <br><br>
@@ -86,7 +86,7 @@ const displayForm = () => {
                 <br><br>
                 <input type="date" name="date" id="recordDate">
                 <br><br>
-                <input type="text" name="phone" id="phone" placeholder="Phone Number"/>
+                <input type="number" name="phone" id="phone" placeholder="Phone Number"/>
                 <br><br>
                 <textarea name="medications" id="meds" cols="30" rows="10" placeholder="List medications"></textarea>
                 <br><br>
@@ -97,7 +97,42 @@ const displayForm = () => {
                 <input type="submit" value="Submit"/>
             </form>
         `)
+        recordForm().addEventListener('submit', handleSubmit)
     } else {
         recordForm().remove()
     }
 }
+
+
+const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const data = {
+        doc_name: e.target.docName.value,
+        practice_name: e.target.practiceName.value,
+        url: e.target.recordUrl.value,
+        date: e.target.recordDate.value,
+        phone: e.target.phone.value,
+        medications: e.target.meds.value,
+        med_notes: e.target.medNotes.value,
+        comments: e.target.comments.value,
+        category_id: e.target.categoryId.value
+    }
+
+    fetch(recordsLink, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(resp => resp.json())
+    .then(json => handleCreateRecord(json))
+}
+
+const handleCreateRecord = (record) => {
+    debugger
+}
+
+// handleDelete
