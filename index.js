@@ -1,5 +1,5 @@
-const recordsLink = 'http://127.0.0.1:3000/api/records'
-const categoriesLink = 'http://127.0.0.1:3000/api/categories'
+const recordsLink = 'http://127.0.0.1:3000/records'
+const categoriesLink = 'http://127.0.0.1:3000/categories'
 const recordForm = () => document.getElementById('record-form')
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,21 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const handleClick = () => {
-    getRecords();
+    if (recordContainer.children.length < 1) {
+        fetch(recordsLink)
+        .then(resp => resp.json())
+        .then(records => {displayRecords(records)})
+        .catch(err => alert(err))
+    } else {
+        recordContainer.innerHTML = ""
+    }
+    // getRecords();
 }
 
-const getRecords = () => {
-    fetch(recordsLink)
-    .then(resp => resp.json())
-    .then(records => {
-        displayRecords(records)
-    })
-    .catch(handleError)
-}
-
-const handleError = (error) => {
-    console.log(error)
-}
+// const getRecords = () => {
+//     fetch(recordsLink)
+//     .then(resp => resp.json())
+//     .then(records => {
+//         displayRecords(records)
+//     })
+//     .catch(handleError)
+// }
 
 const phoneFormat = (input) => {
     if(!input || isNaN(input)) return `input must be a number was sent ${input}`
@@ -39,36 +43,33 @@ const phoneFormat = (input) => {
 }
 
 const displayRecords = (records) => {
-    records.data.forEach(record => {
+    records.forEach(record => displayRecord(record))
+}
 
-        if (recordContainer.children.length < 1) {
-            const recordBox = document.createElement('div')
-            recordBox.className = 'recordBox'
-            recordBox.innerHTML = `    
-                <h2 class="category">${record.attributes.category.name}</h2>
-                <h4 class="docName">${record.attributes.doc_name}</h4>
-                <h4 class="practiceName">${record.attributes.practice_name}</h4>
-                <a href="${record.attributes.url}" target="_blank">${record.attributes.url}</a>
-                <p class="phone">${phoneFormat(record.attributes.phone)}</p>
-                <h4>Medications:</h4>
-                <p class="meds">${record.attributes.medications}</p>
-                <h4>Medication Notes:</h4>
-                <p class="medNotes">${record.attributes.med_notes}</p>
-                <h4>General Comments:</h4>
-                <p class="comments">${record.attributes.comments}</p>
-            `
-            recordContainer.append(recordBox)
-        } else {
-            recordContainer.innerHTML = ""
-        }
-    })
+const displayRecord = (record) => {
+    const div = document.createElement('div')
+    div.className = 'recordBox'
+    div.innerHTML = `
+        <h2 class="category">${record.category.name}</h2>
+        <h4 class="docName">${record.doc_name}</h4>
+        <h4 class="practiceName">${record.practice_name}</h4>
+        <a href="${record.url}" target="_blank">${record.url}</a>
+        <p class="phone">${phoneFormat(record.phone)}</p>
+        <h4>Medications:</h4>
+        <p class="meds">${record.medications}</p>
+        <h4>Medication Notes:</h4>
+        <p class="medNotes">${record.med_notes}</p>
+        <h4>General Comments:</h4>
+        <p class="comments">${record.comments}</p>
+    `
+    recordContainer.append(div)
 }
 
 const displayForm = () => {
     if (!recordForm()) {
         fetch(categoriesLink)
         .then(resp => resp.json())
-        .then(categories => categories.data.map((category) => `<option value="${category.id}">${category.attributes.name}</option>`))
+        .then(categories => categories.map((category) => `<option value="${category.id}">${category.name}</option>`))
         .then(collection => categoryId.innerHTML = collection.join(" "))
 
         formContainer.insertAdjacentHTML('afterbegin', `
@@ -77,21 +78,21 @@ const displayForm = () => {
                 <strong>Select a Category:</strong>
                 <select id="categoryId"></select>
                 <br><br>
-                <input type="text" name="doc_name" placeholder="Doctor's Name">
+                <input type="text" name="doc_name" id="docName" placeholder="Doctor's Name">
                 <br><br>
-                <input type="text" name="practice_name" placeholder="Business Name">
+                <input type="text" name="practice_name" id="practiceName" placeholder="Business Name">
                 <br><br>
-                <input type="text" name="url" placeholder="website">
+                <input type="text" name="url" id="recordUrl" placeholder="website">
                 <br><br>
-                <input type="date" name="date">
+                <input type="date" name="date" id="recordDate">
                 <br><br>
-                <input type="text" name="phone" placeholder="Phone Number"/>
+                <input type="text" name="phone" id="phone" placeholder="Phone Number"/>
                 <br><br>
-                <textarea name="medications" id="" cols="30" rows="10" placeholder="List medications"></textarea>
+                <textarea name="medications" id="meds" cols="30" rows="10" placeholder="List medications"></textarea>
                 <br><br>
-                <textarea name="med_notes" id="" cols="30" rows="10" placeholder="Medication Notes"></textarea>
+                <textarea name="med_notes" id="medNotes" cols="30" rows="10" placeholder="Medication Notes"></textarea>
                 <br><br>
-                <textarea name="comments" id="" cols="30" rows="10" placeholder="General comments"></textarea>
+                <textarea name="comments" id="comments" cols="30" rows="10" placeholder="General comments"></textarea>
                 <br><br>
                 <input type="submit" value="Submit"/>
             </form>
