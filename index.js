@@ -132,7 +132,8 @@ const handleSubmit = (e) => {
 }
 
 const handleCreateRecord = (record) => {
-    debugger
+    recordContainer.children.length < 1 ? handleClick() : displayRecord(record, record.category.id)
+    recordForm().reset()
 }
 
 // handleDelete
