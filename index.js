@@ -10,10 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     buttonShow.addEventListener('click', handleClick)
     buttonNew.addEventListener('click', RecordForm.displayForm)
     CategoryApi.fetchCategories()
+    // RecordApi.getRecords()
+
 })
 
 const handleClick = () => {
     if (recordContainer.children.length < 1) {
+        // MedRecord.displayRecords()
         RecordApi.getRecords()
     } else {
         recordContainer.innerHTML = ""
@@ -25,7 +28,7 @@ const handleClick = () => {
 
 // document.addEventListener('DOMContentLoaded', () => {
 //     buttonShow.addEventListener('click', handleClick)
-//     buttonNew.addEventListener('click', displayForm)
+//     // buttonNew.addEventListener('click', displayForm)
 // })
 
 // const handleClick = () => {
@@ -53,15 +56,15 @@ const handleClick = () => {
 //     }
 // }
 
-// // const date = (input) => {
-// //     // const splitDate = input.split('-')
-// //     // debugger
-// //     input.innerHTML = splitDate[1]+'-'+splitDate[2]+'-'+splitDate[0]
-// // }
+// const date = (input) => {
+//     // const splitDate = input.split('-')
+//     // debugger
+//     input.innerHTML = splitDate[1]+'-'+splitDate[2]+'-'+splitDate[0]
+// }
 
 // const displayRecords = (records) => {
 //     // records arg DOES recognize json data from fetch here
-//     // debugger
+//     debugger
 //     records.forEach(record => {
 //         const div = document.createElement('div')
 //         div.className = 'recordBox'
@@ -84,9 +87,9 @@ const handleClick = () => {
 //         const splitDate = record.date.split('-')
 
 //         recordContainer.append(div)
-//         // these eventlistners/querySelectors do NOT throw any errors when rcords displayed
-//         document.querySelector(`button.deleteRecord[data-id="${record.id}"]`).addEventListener('click', handleDeleteRecord)
-//         document.querySelector(`button.editRecord[data-id="${record.id}"]`).addEventListener('click', handleEditButton)
+// //         // these eventlistners/querySelectors do NOT throw any errors when rcords displayed
+// //         document.querySelector(`button.deleteRecord[data-id="${record.id}"]`).addEventListener('click', handleDeleteRecord)
+// //         document.querySelector(`button.editRecord[data-id="${record.id}"]`).addEventListener('click', handleEditButton)
 //     })
 // }
 

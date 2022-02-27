@@ -21,6 +21,7 @@ class MedRecord {
         // records arg does NOT recognize json data from fetch here
         // debugger
         records.forEach(record => {
+        // this.all.forEach(record => {
             const div = document.createElement('div')
             div.className = 'recordBox'
             div.innerHTML = `
@@ -40,7 +41,8 @@ class MedRecord {
             `
             recordContainer.append(div)
             // this line seems to be what's throwing the error and therefore won't load the records properly to the page
-            document.querySelector(`button.deleteRecord[data-id=${record.id}]`).addEventListener('click', this.handleDeleteRecord)
+            document.querySelector(`.deleteRecord[data-id="${record.id}"]`).addEventListener('click', this.handleDeleteRecord)
+            document.querySelector(`.editRecord[data-id="${record.id}"]`).addEventListener('click', this.handleEditButton)
         }) 
     }
 
@@ -58,13 +60,22 @@ class MedRecord {
         }
     }
 
-    // static handleEditRecord = (e) => {
-    //     // instance or class method???
-    // }
+    static handleEditButton = (e) => {
+        // instance or class method???
+        debugger
+    }
 
-    // static handleDeleteRecord = (e) => {
-    //     // instance or class method???
-    //     debugger
-    // }
+    static handleDeleteRecord = (e) => {
+        debugger
+        // fetch(`http://127.0.0.1:3000/records/${e.target.dataset.id}`, {
+        //     method: 'DELETE',
+        //     headers: {'Content-Type': 'application/json'}
+        // })
+        // .then(resp => resp.json())
+        // .then(json => {
+        //     e.target.parentElement.remove()
+        //     alert(json.message)
+        // })
+    }
 }
 
