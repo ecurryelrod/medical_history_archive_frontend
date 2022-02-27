@@ -15,7 +15,7 @@ class RecordForm {
                     <br><br>
                     <input type="date" name="date" id="recordDate">
                     <br><br>
-                    <input type="number" name="phone" id="phone" placeholder="Phone Number"/>
+                    <input type="text" name="phone" id="phone" placeholder="Phone Number">
                     <br><br>
                     <textarea name="medications" id="meds" cols="30" rows="10" placeholder="List medications"></textarea>
                     <br><br>
@@ -64,8 +64,7 @@ class RecordForm {
 
     // when a record is created, if all records are not displayed on page, then handleClick fn invoked so the new record, along with all existing records displays on the page. Else, if the records are already displayed, then display the new record just created alongside the others
     static handleCreateRecord = (record) => {
-        recordContainer.children.length < 1 ? handleClick() : medRecord.displayRecord(record)
-        // medRecord.displayRecord(record)
+        recordContainer.children.length < 1 ? handleClick() : MedRecord.displayRecord(record)
         recordForm().reset()
     }
 }

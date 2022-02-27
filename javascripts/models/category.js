@@ -7,4 +7,8 @@ class Category {
         this.records = records
         Category.all.push(this)
     }
+
+    static getAll = () => {
+        this.all
+    }
 }
